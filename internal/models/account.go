@@ -26,7 +26,6 @@ func (ar *AccountRepository) GetAllAccounts() ([]Account, error) {
 	return accounts, result.Error
 }
 
-
 func (ar *AccountRepository) GetAccountByID(id uint) (Account, error) {
 	var account Account
 	result := ar.DB.Preload(clause.Associations).Where("id = ?", id).Find(&account)

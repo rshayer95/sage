@@ -39,7 +39,7 @@ type AccountDTO struct {
 	BalanceLastUpdated  string
 	TxnLastUpdated      string
 	InterestRate        float64 `json:"interest_rate"`
-	InterestRatePercent string `json:"interest_rate_percent"`
+	InterestRatePercent string  `json:"interest_rate_percent"`
 }
 
 type AccountsPageDTO struct {
@@ -60,7 +60,7 @@ type AccountFormDTO struct {
 	AccountTypeName string
 	AccountTypes    []models.AccountType // the DTO probably shouldn't be using the models
 	DefaultParser   string
-	InterestRate	string
+	InterestRate    string
 }
 
 func (ac *AccountController) generateAccountsView(w http.ResponseWriter, req *http.Request) {
@@ -209,9 +209,9 @@ func (ac *AccountController) upsertAccount(w http.ResponseWriter, req *http.Requ
 	accountName := req.FormValue("accountName")
 	accountTypeIDFormValue := req.FormValue("accountTypeID")
 	interestRateFormValue := req.FormValue("interestRate")
-	
+
 	var account models.Account
-	
+
 	if accountID != "" {
 		id, err := utils.StringToUint(accountID)
 		if err != nil {
@@ -249,8 +249,8 @@ func (ac *AccountController) upsertAccount(w http.ResponseWriter, req *http.Requ
 			http.Error(w, "Invalid interest rate format", http.StatusBadRequest)
 			return
 		}
-		
-    	//validate range
+
+		//validate range
 		if interestRate < 0 || interestRate > 100 {
 			http.Error(w, "Interest rate must be between 0 and 100", http.StatusBadRequest)
 			return
