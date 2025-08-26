@@ -48,6 +48,7 @@
                         end
                         }}
                         value="{{ $accountType.ID }}"
+                        data-ledger-type="{{ $accountType.LedgerType }}"
                     >
                         {{ $accountType.Name }}
                     </option>
@@ -57,7 +58,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="interestRateRow" style="display: none">
         <div class="col-sm-6">
             <div class="form-floating mb-3">
                 <input
@@ -102,4 +103,28 @@
     {{ end }}
     <a type="button" class="btn btn-light" href="/accounts">Cancel</a>
 </form>
+
+<script>
+    $(document).ready(function () {
+        const $select = $("#accountTypeID");
+        const $interestRow = $("#interestRateRow");
+        const $interestInput = $("#interestRate");
+
+        function toggleInterestRate() {
+            const ledgerType = $select
+                .find("option:selected")
+                .data("ledger-type");
+            if (ledgerType === "liability") {
+                $interestRow.show();
+                $interestInput.prop("required", true);
+            } else {
+                $interestRow.hide();
+                $interestInput.prop("required", false);
+            }
+        }
+
+        $select.on("change", toggleInterestRate);
+        toggleInterestRate(); // run once on page load (edit mode)
+    });
+</script>
 {{ template "footer"}}

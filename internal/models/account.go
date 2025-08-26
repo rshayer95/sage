@@ -22,9 +22,10 @@ type AccountRepository struct {
 
 func (ar *AccountRepository) GetAllAccounts() ([]Account, error) {
 	var accounts []Account
-	result := ar.DB.Find(&accounts)
+	result := ar.DB.Preload("AccountType").Find(&accounts)
 	return accounts, result.Error
 }
+
 
 func (ar *AccountRepository) GetAccountByID(id uint) (Account, error) {
 	var account Account

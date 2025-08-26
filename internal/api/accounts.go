@@ -122,10 +122,19 @@ func (ac *AccountController) generateAccountsViewContent(w http.ResponseWriter, 
 		}
 	}
 
-	sort.Slice(accountsDTO, func(i, j int) bool {
-		if accountsDTO[i].AccountCategory == "liability" && accountsDTO[j].AccountCategory == "liability" {
-			return accountsDTO[i].InterestRate > accountsDTO[j].InterestRate
+	sort.SliceStable(accountsDTO, func(j, k int) bool {
+		// Sort liabilities by descending interest rate
+		if accountsDTO[j].AccountType == "liability" && accountsDTO[k].AccountType == "liability" {
+			return accountsDTO[j].InterestRate > accountsDTO[k].InterestRate
 		}
+		// Liabilities come before non-liabilities
+		if accountsDTO[j].AccountType == "liability" {
+			return true
+		}
+		if accountsDTO[k].AccountType == "liability" {
+			return false
+		}
+		// Otherwise, keep the original order
 		return false
 	})
 	accountsPageDTO := AccountsPageDTO{

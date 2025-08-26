@@ -58,7 +58,7 @@
                     >
                         {{ $account.InterestRatePercent }}
                     </span>
-                    {{if and (eq $account.AccountCategory "liability") (gt
+                    {{if and (eq $account.AccountType "liability") (gt
                     $account.InterestRate 0.15)}}
                     <small class="text-danger fw-bold ms-2"
                         >Priority: Pay off first!</small
